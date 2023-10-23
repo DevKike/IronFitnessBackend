@@ -1,0 +1,26 @@
+{
+  "name": "ironfitness",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "npx nodemon src/index.js",
+    "migration:generate": "sequelize migration:generate --name %npm_config_name% --migrations-path ./src/migrations",
+    "migration:run": "sequelize db:migrate --migrations-path ./src/migrations"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.6.2",
+    "sequelize": "^6.33.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "sequelize-cli": "^6.6.1"
+  }
+}
