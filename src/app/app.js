@@ -6,6 +6,7 @@ const routerUser = require("../router/user.router")
 
 const app = express()
 
+app.use(express.json())
 app.use(morgan("dev"))
 app.get("/", (req, res) => {
     res.send("This is Express")

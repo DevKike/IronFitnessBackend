@@ -1,20 +1,15 @@
 const routerUser = require("express").Router();
-
-const UserModel = require("../model/user.model")
+const objectValidator = require("../middleware/objectValidator");
+const userSchema = require("../schemas/userSchema");
+const UserModel = require("../model/user.model");
 
 routerUser.get("/", (req, res) =>{
     res.send("I am a Router");
 });
 
-routerUser.post("/", async (req, res) =>{
+routerUser.post("/", objectValidator(userSchema), async (req, res) =>{
     try {
-        const newUser = await UserModel.create({
-            name: "Alvaro", 
-            last_name: "Narvaez",
-            email: "alvarogmail.com", 
-            password: "alvaro123",
-            phone_number: "3233255528",
-        });
+        const newUser = await UserModel.create(req.body);
         const user = newUser.toJSON();
         delete user.password;
         res.status(201).json({
@@ -27,4 +22,3 @@ routerUser.post("/", async (req, res) =>{
     }
 });
 module.exports = routerUser;
-
