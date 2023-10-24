@@ -6,20 +6,20 @@ const { DataTypes } = require('sequelize');
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable("Products", {
-      product_id: {
+      id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      product_name: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      product_price: {
+      price: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      product_brand: {
+      brand: {
         type: DataTypes.STRING,
         allowNull: false,
       },

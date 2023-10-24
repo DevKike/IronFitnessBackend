@@ -2,15 +2,15 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../db/db");
 
 const ProductModel = sequelize.define("Products", {
-    product_id: {
+    id: {
         primaryKey: true,
         allowNull: false,
         type: DataTypes.INTEGER,
         autoIncrement: true
     },
-    product_name: DataTypes.STRING,
-    product_price: DataTypes.TINYINT,
-    product_brand: DataTypes.STRING
+    name: DataTypes.STRING,
+    price: DataTypes.TINYINT,
+    brand: DataTypes.STRING
 }, {
     timestamps: false,
     createdAt: false,

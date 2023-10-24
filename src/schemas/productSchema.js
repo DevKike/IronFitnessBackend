@@ -5,8 +5,8 @@ const Joi = require('joi');
 
 const productSchema = Joi.object({
     product_name: Joi.string().required(),
-    product_price: Joi.string().required(),
-    product_brand: Joi.string().required(),
+    price: Joi.string().required(),
+    brand: Joi.string().required(),
 });
 
 module.exports = productSchema;
