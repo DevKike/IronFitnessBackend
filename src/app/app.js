@@ -1,9 +1,7 @@
-const express = require("express")
-
-const morgan = require("morgan")
-
-const routerUser = require("../router/user.router")
-
+const express = require("express");
+const morgan = require("morgan");
+const routerUser = require("../router/user.router");
+const routerProduct = require("../router/product.router");
 const app = express()
 
 app.use(express.json())
@@ -13,5 +11,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", routerUser)
+app.use("/product", routerProduct)
 
 module.exports = app;
