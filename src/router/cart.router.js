@@ -1,7 +1,5 @@
 const routerCart = require("express").Router();
 const objectValidator = require("../middleware/objectValidator");
-// const productSchema = require("../schemas/productSchema");
-// const ProductModel = require("../model/product.model");
 
 routerCart.post("/:userId", async (req, res) => {
   try {
@@ -15,6 +13,7 @@ routerCart.post("/:userId", async (req, res) => {
     //BONUS. Si el producto ya existe, aumentar la cantidad.
     const { userId } = req.params;
     res.status(201).json({
+      message: "Producto agregado con éxito!",
       status: 201,
       data: { userId },
     });
