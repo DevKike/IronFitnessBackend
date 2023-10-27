@@ -1,11 +1,25 @@
 const routerCart = require("express").Router();
 const objectValidator = require("../middleware/objectValidator");
-// const productSchema = require("../schemas/productSchema");
-// const ProductModel = require("../model/product.model");
+const CartModel = require("../model/cart.model");
+const UserModel = require("../model/user.model");
 
 routerCart.post("/:userId", async (req, res) => {
   try {
+    const { userId } = req.params;
     //TODO: Implementar lógica de carrito de compras.
+    const userFound = await UserModel.findOne({ where: { id: userId } });
+    if (!userFound) {
+      throw {
+        status: 404,
+        message: "User not found"
+      };
+    }
+    console.log(userFound.dataValues);
+    let cartFound = await CartModel.findOne({ where: { user_id: userId, active: false } });
+    if (!cartFound) {
+      cartFound = await CartModel.create({ user_id: userId });
+    }
+    console.log(cartFound);
     //OTHER BONUS. Validar si el usuario existe.
     //1. Validar que exista el carrito y que esté activo.
     //2. Si no existe, entonces, crear un carrito y obtener el Id del carrito.
@@ -13,14 +27,14 @@ routerCart.post("/:userId", async (req, res) => {
     //4. Devolver al usuario el mensaje de "Agregado con éxito".
     //BONUS. Validar que el producto exista.
     //BONUS. Si el producto ya existe, aumentar la cantidad.
-    const { userId } = req.params;
     res.status(201).json({
+      message: "Producto agregado con éxito!",
       status: 201,
       data: { userId },
     });
   } catch (error) {
     console.log(error.message);
-    res.status(422).send({ error: "Error al crear producto" });
+    res.status(error?.status || 422).send({ error: error?.message || "Error al crear producto" });
   }
 });
 module.exports = routerCart;
