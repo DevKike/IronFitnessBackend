@@ -3,6 +3,10 @@ const objectValidator = require("../middleware/objectValidator");
 const userSchema = require("../schemas/userSchema");
 const UserModel = require("../model/user.model");
 
+routerUser.get("/", (req, res) =>{
+    res.send("I am a Router");
+});
+
 routerUser.post("/", objectValidator(userSchema), async (req, res) =>{
     try {
         const newUser = await UserModel.create(req.body);
