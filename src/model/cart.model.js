@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../db/db");
 const ProductModel = require("./product.model");
 
-const CartModel = sequelize.define("Carts", {
+const CartModel = sequelize.define("carts", {
   id: {
     primaryKey: true,
     allowNull: false,
@@ -32,6 +32,6 @@ const CartModel = sequelize.define("Carts", {
   underscored: true
 });
 
-CartModel.hasMany(ProductModel);
+CartModel.belongsToMany(ProductModel, { through: "cart_product", as: "products" });
 
 module.exports = CartModel;

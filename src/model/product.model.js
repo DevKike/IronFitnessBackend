@@ -18,4 +18,6 @@ const ProductModel = sequelize.define("Products", {
     updatedAt: false
 });
 
+// ProductModel.belongsToMany(CartModel, { through: "cart_product", as: "products" });
+
 module.exports = ProductModel;

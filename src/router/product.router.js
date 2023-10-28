@@ -9,7 +9,11 @@ routerProduct.get("/", (req, res) =>{
 
 routerProduct.post("/", objectValidator(productSchema), async (req, res) =>{
     try {
-        const newProduct = await ProductModel.create(req.body);
+        const newProduct = await ProductModel.create({
+            name: req.body.product_name,
+            price: req.body.price,
+            brand: req.body.brand
+        });
         const product = newProduct.toJSON();
         delete product.password;
         res.status(201).json({

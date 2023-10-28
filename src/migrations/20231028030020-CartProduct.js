@@ -5,33 +5,33 @@ const { DataTypes } = require('sequelize');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable("carts", {
+    await queryInterface.createTable("cart_product", {
       id: {
-        primaryKey: true,
-        allowNull: false,
         type: DataTypes.INTEGER,
-        autoIncrement: true
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
       },
-      user_id: {
+      cart_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Users",
+          model: "carts",
           key: "id"
         }
       },
-      active: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      },
-      payed: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      },
+      product_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Products",
+          key: "id"
+        }
+      }
     });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable("carts");
+    await queryInterface.dropTable("cart_product");
   }
 };

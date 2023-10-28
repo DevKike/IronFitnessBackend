@@ -1,9 +1,11 @@
 const routerCart = require("express").Router();
 const objectValidator = require("../middleware/objectValidator");
 const CartModel = require("../model/cart.model");
+const ProductModel = require("../model/product.model");
 const UserModel = require("../model/user.model");
+const addItemProductSchema = require("../schemas/addItemProductSchema");
 
-routerCart.post("/:userId", async (req, res) => {
+routerCart.post("/:userId", objectValidator(addItemProductSchema), async (req, res) => {
   try {
     const { userId } = req.params;
     //TODO: Implementar lógica de carrito de compras.
@@ -15,10 +17,20 @@ routerCart.post("/:userId", async (req, res) => {
       };
     }
     console.log(userFound.dataValues);
-    let cartFound = await CartModel.findOne({ where: { user_id: userId, active: false } });
+    let cartFound = await CartModel.findOne({ where: { user_id: userId, active: false }, include: "products" });
+    console.log("🚀  ~ file: cart.router.js:19 ~ routerCart.post ~ cartFound:", cartFound);
     if (!cartFound) {
       cartFound = await CartModel.create({ user_id: userId });
     }
+
+    const productFound = await ProductModel.findOne({ where: { id: req.body.product_id } });
+    if(!productFound) {
+      throw {
+        status: 404,
+        message: "Product not found"
+      };
+    }
+    await cartFound.addProduct(productFound);
     console.log(cartFound);
     //OTHER BONUS. Validar si el usuario existe.
     //1. Validar que exista el carrito y que esté activo.
