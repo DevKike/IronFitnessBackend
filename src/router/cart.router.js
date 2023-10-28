@@ -1,6 +1,7 @@
 const routerCart = require("express").Router();
 const objectValidator = require("../middleware/objectValidator");
 const CartModel = require("../model/cart.model");
+const CartProduct = require("../model/cartProduct.model");
 const ProductModel = require("../model/product.model");
 const UserModel = require("../model/user.model");
 const addItemProductSchema = require("../schemas/addItemProductSchema");
@@ -30,8 +31,16 @@ routerCart.post("/:userId", objectValidator(addItemProductSchema), async (req, r
         message: "Product not found"
       };
     }
-    await cartFound.addProduct(productFound);
+    const productFind = cartFound.toJSON().products.find(product => product.id === req.body.product_id);
+    console.log(productFind);
+    if(!productFind){
+      await cartFound.addProduct({...productFound, ammount: req.body.ammount});
+    }else{
+      await CartProduct.update({ammount: productFind.ammount + req.body.ammount},{id: cartFound.dataValues.id});
+    }
     console.log(cartFound);
+
+
     //OTHER BONUS. Validar si el usuario existe.
     //1. Validar que exista el carrito y que esté activo.
     //2. Si no existe, entonces, crear un carrito y obtener el Id del carrito.

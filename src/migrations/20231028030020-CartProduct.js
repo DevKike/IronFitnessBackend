@@ -27,7 +27,11 @@ module.exports = {
           model: "Products",
           key: "id"
         }
-      }
+      },
+      ammount:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    }
     });
   },
 
