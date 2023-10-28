@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/db");
+const ProductModel = require("./product.model");
 
 const CartModel = sequelize.define("Carts", {
   id: {
@@ -30,5 +31,7 @@ const CartModel = sequelize.define("Carts", {
   updatedAt: false,
   underscored: true
 });
+
+CartModel.hasMany(ProductModel);
 
 module.exports = CartModel;
