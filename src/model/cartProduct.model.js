@@ -27,6 +27,7 @@ const CartProduct = sequelize.define("cart_product", {
     ammount:{
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 1
     }
 }, {
     timestamps: false,

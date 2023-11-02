@@ -31,6 +31,7 @@ module.exports = {
       ammount:{
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 1
     }
     });
   },
