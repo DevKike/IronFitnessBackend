@@ -1,8 +1,5 @@
 const app = require("./app/app")
 const sequelize = require("./db/db")
-const express = require("express");
-const path = require('path');
-
 
 sequelize.authenticate()
 .then(()=>{
