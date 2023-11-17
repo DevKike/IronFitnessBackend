@@ -2,12 +2,16 @@ const routerProduct = require("express").Router();
 const objectValidator = require("../middleware/objectValidator");
 const productSchema = require("../schemas/productSchema");
 const ProductModel = require("../model/product.model");
+const authMiddleware = require("../middleware/authMiddleware");
+const { roleMiddleware } = require("../middleware/roleMiddleware");
+const { roles } = require("../config/variables");
+
 
 routerProduct.get("/", (req, res) =>{
     res.send("I am a Router");
 });
 
-routerProduct.post("/", objectValidator(productSchema), async (req, res) =>{
+routerProduct.post("/", authMiddleware(), roleMiddleware(roles.ADMIN) ,objectValidator(productSchema), async (req, res) =>{
     try {
         const newProduct = await ProductModel.create({
             name: req.body.product_name,

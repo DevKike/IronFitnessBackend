@@ -11,7 +11,6 @@ const transport = nodemailer.createTransport({
 });
 
 const sendMail = async (emailInfo) => {
-    console.log("🚀  ~ file: sendMail.js:14 ~ sendMail ~ emailInfo:", emailInfo);
     try {
         await transport.sendMail({
             from: emailInfo.from,
