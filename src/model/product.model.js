@@ -10,8 +10,10 @@ const ProductModel = sequelize.define("Products", {
         autoIncrement: true
     },
     name: DataTypes.STRING,
-    price: DataTypes.TINYINT,
-    brand: DataTypes.STRING
+    price: DataTypes.INTEGER,
+    brand: DataTypes.STRING,
+    image: DataTypes.STRING,
+    description: DataTypes.STRING
 }, {
     timestamps: false,
     createdAt: false,

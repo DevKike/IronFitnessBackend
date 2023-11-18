@@ -5,13 +5,17 @@ const ProductModel = require("../model/product.model");
 const authMiddleware = require("../middleware/authMiddleware");
 const { roleMiddleware } = require("../middleware/roleMiddleware");
 const { roles } = require("../config/variables");
+const uploadImage = require("./../utils/uploadImage");
 
-routerProduct.post("/", authMiddleware(), roleMiddleware(roles.ADMIN) ,objectValidator(productSchema), async (req, res) =>{
+routerProduct.post("/",objectValidator(productSchema), async (req, res) =>{
     try {
+        const image = await uploadImage(req.body.image);
         const newProduct = await ProductModel.create({
-            name: req.body.product_name,
+            name: req.body.name,
             price: req.body.price,
-            brand: req.body.brand
+            brand: req.body.brand,
+            description: req.body.description,
+            image
         });
         const product = newProduct.toJSON();
         delete product.password;

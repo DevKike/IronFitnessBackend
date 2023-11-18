@@ -1,5 +1,5 @@
-const app = require("./app/app")
-const sequelize = require("./db/db")
+const app = require("./app/app");
+const sequelize = require("./db/db");
 
 sequelize.authenticate()
 .then(()=>{
