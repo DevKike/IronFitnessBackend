@@ -8,4 +8,9 @@ const addItemProductSchema = Joi.object({
     ammount: ammount.required()
 });
 
-module.exports = addItemProductSchema;
+
+const removeItemProductSchema = Joi.object({
+    product_id: product_id.required()
+});
+
+module.exports = { addItemProductSchema, removeItemProductSchema };

@@ -33,7 +33,8 @@ const CartProduct = sequelize.define("cart_product", {
     timestamps: false,
     createdAt: false,
     updatedAt: false,
-    underscored: true
+    underscored: true,
+    freezeTableName: true
 });
 
 module.exports = CartProduct;

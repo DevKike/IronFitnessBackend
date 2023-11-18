@@ -7,7 +7,7 @@ const { roleMiddleware } = require("../middleware/roleMiddleware");
 const { roles } = require("../config/variables");
 const uploadImage = require("./../utils/uploadImage");
 
-routerProduct.post("/",objectValidator(productSchema), async (req, res) =>{
+routerProduct.post("/", authMiddleware(), roleMiddleware(roles.ADMIN) ,objectValidator(productSchema), objectValidator(productSchema), async (req, res) =>{
     try {
         const image = await uploadImage(req.body.image);
         const newProduct = await ProductModel.create({
