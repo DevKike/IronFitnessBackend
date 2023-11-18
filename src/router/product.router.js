@@ -6,11 +6,6 @@ const authMiddleware = require("../middleware/authMiddleware");
 const { roleMiddleware } = require("../middleware/roleMiddleware");
 const { roles } = require("../config/variables");
 
-
-routerProduct.get("/", (req, res) =>{
-    res.send("I am a Router");
-});
-
 routerProduct.post("/", authMiddleware(), roleMiddleware(roles.ADMIN) ,objectValidator(productSchema), async (req, res) =>{
     try {
         const newProduct = await ProductModel.create({
@@ -27,6 +22,20 @@ routerProduct.post("/", authMiddleware(), roleMiddleware(roles.ADMIN) ,objectVal
     } catch (error) {
         console.log(error.message);
         res.status(500).send({ error: "Error al crear producto" });
+    }
+});
+
+routerProduct.get("/", async (req, res) => {
+    try {
+        console.log("get into")
+        const products = await ProductModel.findAll();
+        res.status(200).json({
+            products
+        })
+    } catch (error) {
+        res.status(404).send({
+            error: "No se encontraron productos"
+        });
     }
 });
 module.exports = routerProduct;
