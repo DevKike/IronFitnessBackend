@@ -252,7 +252,9 @@ routerCart.post("/payment", authMiddleware(), roleMiddleware(roles.USER), async 
     };
 
     await sendMail(emailInfo);
-    res.status(200).send("Puto");
+    res.status(200).send({
+      message: "Pagado con exito"
+    });
   } catch (error) {
     res.status(error.status || 500).send({ error: error.message });
   }
