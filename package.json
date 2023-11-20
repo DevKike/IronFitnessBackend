@@ -8,7 +8,8 @@
     "dev": "npx nodemon src/index.js",
     "migration:generate": "sequelize migration:generate --name %npm_config_name% --migrations-path ./src/migrations",
     "migration:run": "sequelize db:migrate --migrations-path ./src/migrations",
-    "migration:revert": "sequelize db:migrate:undo"
+    "migration:revert": "sequelize db:migrate:undo",
+    "migration:destroy": "sequelize db:migrate:undo:all"
   },
   "keywords": [],
   "author": "",

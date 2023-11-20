@@ -13,7 +13,7 @@ const ProductModel = sequelize.define("Products", {
     price: DataTypes.INTEGER,
     brand: DataTypes.STRING,
     image: DataTypes.STRING,
-    description: DataTypes.STRING
+    description: DataTypes.TEXT
 }, {
     timestamps: false,
     createdAt: false,
