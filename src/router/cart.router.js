@@ -1,3 +1,4 @@
+const { v4 } = require("uuid");
 const routerCart = require("express").Router();
 const sequelize = require("../db/db");
 const objectValidator = require("../middleware/objectValidator");
@@ -10,6 +11,9 @@ const { roles } = require("../config/variables");
 
 const authMiddleware = require("../middleware/authMiddleware");
 const { roleMiddleware } = require("../middleware/roleMiddleware");
+
+const fs = require("fs");
+const { sendMail } = require("../helper/sendMail");
 
 routerCart.post("/", authMiddleware(), roleMiddleware(roles.USER), objectValidator(addItemProductSchema), async (req, res) => {
   try {
@@ -29,7 +33,7 @@ routerCart.post("/", authMiddleware(), roleMiddleware(roles.USER), objectValidat
     // Buscar un carrito existente o crear uno nuevo.
     let cartFound = await CartModel.findOne({ where: { user_id: id, active: true }, include: "products" });
     if (!cartFound) {
-      cartFound = await CartModel.create({ user_id: id });
+      cartFound = await CartModel.create({ user_id: id, active: true });
     }
 
     // Validar que el producto existe.
@@ -186,15 +190,71 @@ routerCart.delete("/:id", authMiddleware(), roleMiddleware(roles.USER), async(re
         product_id: req.params.id
       }
     });
-    console.log("🚀  ~ file: cart.router.js:189 ~ routerCart.delete ~ result:", result);
     res.status(200).send({
       message: "Eliminado con exito"
     });
   } catch (error) {
-    console.log("🚀  ~ file: cart.router.js:197 ~ routerCart.delete ~ error:", error);
     res.status(400).send({
       error: "Error al intentar eliminar item"
     });
+  }
+});
+
+routerCart.post("/payment", authMiddleware(), roleMiddleware(roles.USER), async (req, res) => {
+  try {
+    const { id } = req.user;
+    const userFound = await UserModel.findOne({ where: { id: id } });
+    if (!userFound) {
+      throw {
+        status: 404,
+        message: "User not found"
+      };
+    }
+
+    let cartFound = await CartModel.findOne({ where: { user_id: id, active: true }, include: "products" });
+    if (!cartFound) {
+      throw {
+        status: 404,
+        message: "Cart not found"
+      };
+    }
+    await CartModel.update({ active: false, payed: true }, { where: { user_id: id, id: cartFound.toJSON().id } });
+
+    const textMail = fs.readFileSync("./src/static/paymentConfirmation.html", "utf-8");
+
+    const queryTotal = `SELECT SUM(cp.ammount * p.price) AS total_amount
+      FROM cart_product cp
+      INNER JOIN products p ON cp.product_id = p.id
+      WHERE cp.cart_id = :cartId;
+    `;
+
+    const { total_amount } = await sequelize.query(queryTotal, {
+      replacements: {
+        cartId: cartFound.id,
+      },
+      plain: true
+    });
+    console.log("🚀  ~ file: cart.router.js:234 ~ routerCart.post ~ total:", total_amount);
+
+    const user = userFound.toJSON();
+    const date = new Date().toISOString();
+    const html = textMail.replace("%name%", user.name)
+      .replace("%last_name%", user.last_name)
+      .replace("%date%", date)
+      .replace("%total%", total_amount)
+      .replace("%transaction_id%", v4());
+
+    const emailInfo = {
+      from: "ironfitness.enterprise@hotmail.com",
+      to: userFound.toJSON().email,
+      subject: "Confirmacion de pago",
+      html
+    };
+
+    await sendMail(emailInfo);
+    res.status(200).send("Puto");
+  } catch (error) {
+    res.status(error.status || 500).send({ error: error.message });
   }
 });
 

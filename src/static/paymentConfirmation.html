@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido a Iron Fitness</title>
+    <title>Confirmación de Pago - Iron Fitness</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,6 +31,15 @@
             color: #bbb;
         }
 
+        .confirmation {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .payment-details {
+            color: #bbb;
+        }
+
         .btn {
             display: inline-block;
             padding: 10px 20px;
@@ -54,14 +63,31 @@
                 opacity: 1;
             }
         }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Bienvenido a Iron Fitness</h1>
+        <h1>Confirmación de pago</h1>
         <p>¡Hola %name% %last_name%!</p>
-        <p>Gracias por unirte a Iron Fitness. Estamos emocionados de tenerte como parte de nuestra comunidad.</p>
+        <p>Gracias por realizar tu pago.</p>
+        <p class="confirmation">Confirmación de Pago:</p>
+        <div class="payment-details">
+            <p>Fecha de Pago: %date%</p>
+            <p>Monto Pagado: %total%</p>
+            <p>ID de Transacción: %transaction_id%</p>
+        </div>
         <p>En Iron Fitness, nos esforzamos por proporcionar productos y servicios de alta calidad para ayudarte en tu viaje hacia una vida más saludable y en forma.</p>
         <p>Si tienes alguna pregunta o necesitas asistencia, no dudes en ponerte en contacto con nuestro equipo de soporte.</p>
         <a href="http://localhost:5173/" class="btn" target="_blank">Explora nuestro sitio</a>
