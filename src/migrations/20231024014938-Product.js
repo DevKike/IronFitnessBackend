@@ -5,7 +5,7 @@ const { DataTypes } = require('sequelize');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable("Users", {
+    await queryInterface.createTable("Products", {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -15,23 +15,21 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      last_name: {
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      brand: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-      },
-      password: {
+      image: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      phone_number: {
-        type: DataTypes.STRING,
+      description: {
+        type: DataTypes.TEXT,
         allowNull: false,
-        unique: true
       },
       created_at:{
         type: DataTypes.DATE,
@@ -47,6 +45,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable("Users")
+    await queryInterface.dropTable("Products")
   }
 };

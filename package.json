@@ -7,17 +7,26 @@
     "start": "node src/index.js",
     "dev": "npx nodemon src/index.js",
     "migration:generate": "sequelize migration:generate --name %npm_config_name% --migrations-path ./src/migrations",
-    "migration:run": "sequelize db:migrate --migrations-path ./src/migrations"
+    "migration:run": "sequelize db:migrate --migrations-path ./src/migrations",
+    "migration:revert": "sequelize db:migrate:undo",
+    "migration:destroy": "sequelize db:migrate:undo:all"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "firebase": "^10.6.0",
+    "firebase-admin": "^11.11.0",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "mysql2": "^3.6.2",
-    "sequelize": "^6.33.0"
+    "nodemailer": "^6.9.7",
+    "sequelize": "^6.33.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
